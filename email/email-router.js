@@ -1,5 +1,4 @@
-const router = require('express').Router;
-
+const router = require('express').Router();
 const emailService = require('./email-model');
 
 router.post('/send', (req, res) => {
