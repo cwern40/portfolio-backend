@@ -12,11 +12,11 @@ const server = express();
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: false }))
 server.use(helmet());
-// const corsOptions = {
-//     origin: 'https://chriswernli.com',
-//     optionsSuccessStatus: 200
-// }
-server.use(cors());
+const corsOptions = {
+    origin: 'https://chriswernli.com',
+    optionsSuccessStatus: 200
+}
+server.use(cors(corsOptions));
 server.use(express.json());
 
 server.use('/api/email', emailRouter);
