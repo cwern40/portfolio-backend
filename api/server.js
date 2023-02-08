@@ -12,6 +12,10 @@ const server = express();
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: false }))
 server.use(helmet());
+// const corsOptions = {
+//     origin: 'https://chriswernli.com',
+//     optionsSuccessStatus: 200
+// }
 server.use(cors());
 server.use(express.json());
 

@@ -10,7 +10,6 @@ async function verifyRecaptcha (token) {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
     }).then(({ data }) => {
-        console.log(data)
         if (data.success) {
             if (data.score > .5) {
                 return { success: true, bot: false };
