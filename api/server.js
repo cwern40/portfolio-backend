@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
 require('dotenv').config();
 
 const emailRouter = require('../email/email-router');
@@ -17,6 +18,9 @@ const corsOptions = {
     optionsSuccessStatus: 200
 }
 server.use(cors(corsOptions));
+server.use(morgan('dev', {
+    skip: function (req, res) { return res.statusCode < 400 }
+}))
 server.use(express.json());
 
 server.use('/api/email', emailRouter);

@@ -24,8 +24,7 @@ router.post('/send', emailValidation, async (req, res) => {
                 message: 'error sending email'
             })
         }
-    }).catch(data => {
-        console.log('error', data)
+    }).catch(() => {
         res.status(500).json({
             message: 'error sending email'
         })
