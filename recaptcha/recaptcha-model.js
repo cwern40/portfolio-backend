@@ -1,4 +1,5 @@
 const axios = require('axios');
+const log = require('loglevel');
 
 module.exports = {
     verifyRecaptcha
@@ -17,11 +18,11 @@ async function verifyRecaptcha (token) {
                 return { success: true, bot: true };
             }
         } else {
-            console.log('error', data);
+            log.error('recaptcha validation error', data);
             return { success: false, bot: undefined };
         }
     }).catch((err) => {
-        console.log(err);
+        log.error('recaptcha validation error', err);
         return { success: false, bot: undefined };
     })
 }
