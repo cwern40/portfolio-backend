@@ -18,7 +18,7 @@ const corsOptions = {
     optionsSuccessStatus: 200
 }
 server.use(cors(corsOptions));
-server.use(morgan('dev', {
+server.use(morgan('combined', {
     skip: function (req, res) { return res.statusCode < 400 }
 }))
 server.use(express.json());
