@@ -3,14 +3,10 @@ const cors = require('cors');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const fs = require('fs');
-const path = require('path');
-const accessLogStream = fs.createWriteStream(path.join(process.cwd(), 'logs', 'error_log'), { flags: 'a'})
 require('dotenv').config();
 
 const emailRouter = require('../email/email-router');
 const recaptchaRouter = require('../recaptcha/recaptcha-router');
-const cronRouter = require('../cronjobs/cron-router');
 
 const server = express();
 
@@ -22,26 +18,13 @@ const corsOptions = {
     optionsSuccessStatus: 200
 }
 server.use(cors(corsOptions));
-
-// logger settings
-morgan.token('body', function (req, res) { return JSON.stringify(req.body)})
-const logFormat = ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :body :res[content-length] ":referrer" ":user-agent"'
-
-// logs errors to the console
-server.use(morgan(logFormat, {
+server.use(morgan('combined', {
     skip: function (req, res) { return res.statusCode < 400 }
-}));
-
-// logs errors to a log file
-server.use(morgan(logFormat, {
-    skip: function (req, res) { return res.statusCode < 400 },
-    stream: accessLogStream
-}));
+}))
 server.use(express.json());
 
 server.use('/api/email', emailRouter);
 server.use('/api/recaptcha', recaptchaRouter);
-server.use('/api/cron', cronRouter);
 
 server.get('/', (req, res) => {
     res.send("Success")
