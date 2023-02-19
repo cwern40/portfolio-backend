@@ -31,11 +31,11 @@ function logToFile(filename, data, title='') {
 async function writeFileToAWS(body='', fileName, append=false) {
     if (append) {
         try {
-            await s3.getObject({
+            let s3File = await s3.getObject({
                 Bucket: process.env.CYCLIC_BUCKET_NAME,
                 Key: fileName
             }).promise()
-            body = data.body.toString() + '\n' + body;
+            body = s3File.body.toString() + '\n' + body;
         } catch (err) {
             log.error('s3 get file error', err)
             logToFile(logName, err, 's3 get file error');
