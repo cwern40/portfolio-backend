@@ -41,7 +41,7 @@ async function emailLog (data) {
         emailContents.attachments = [
             {
                 filename: 'error_log.txt',
-                content: file
+                content: file?.body?.toString() || ''
             }
         ]
     }
