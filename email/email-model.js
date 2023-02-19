@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
 const log = require('loglevel');
 const custLog = require('../helper/helpers').logToFile;
+const logName = process.env.APP_ENV == 'dev' ? 'error_log_dev' : 'error_log';
 
 module.exports = {
     sendEmail
@@ -30,7 +31,7 @@ async function sendEmail (data) {
         return true;
     } else {
         log.error('email send error', email);
-        custLog('error_log', email, 'email send error');
+        custLog(logName, email, 'email send error');
         return false;
     }
 }

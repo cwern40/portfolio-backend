@@ -1,6 +1,7 @@
 const axios = require('axios');
 const log = require('loglevel');
 const custLog = require('../helper/helpers').logToFile;
+const logName = process.env.APP_ENV == 'dev' ? 'error_log_dev' : 'error_log';
 
 module.exports = {
     verifyRecaptcha
@@ -20,12 +21,12 @@ async function verifyRecaptcha (token) {
             }
         } else {
             log.error('recaptcha validation error', data);
-            custLog('error_log', data, 'recaptcha error');
+            custLog(logName, data, 'recaptcha error');
             return { success: false, bot: undefined };
         }
     }).catch((err) => {
         log.error('recaptcha validation error', err);
-        custLog('error_log', err, 'recaptcha error');
+        custLog(logName, err, 'recaptcha error');
         return { success: false, bot: undefined };
     })
 }
