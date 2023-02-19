@@ -10,12 +10,13 @@ router.post('/verify', recaptchaValidation, (req, res) => {
         } else {
             res.status(500).json({
                 message: "Unable to verify recaptcha token",
-                error: error
+                error: data
             })
         }
-    }).catch(() => {
+    }).catch((err) => {
         res.status(500).json({
-            message: "Unable to verify recaptcha token"
+            message: "Unable to verify recaptcha token",
+            error: err
         })
     });
 })
