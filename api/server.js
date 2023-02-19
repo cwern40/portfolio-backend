@@ -8,7 +8,8 @@ const path = require('path');
 const moment = require('moment-timezone');
 require('dotenv').config();
 const logName = process.env.APP_ENV == 'dev' ? 'error_log_dev' : 'error_log';
-const accessLogStream = fs.createWriteStream(path.join(process.cwd(), process.env.LOG_PATH, logName), { flags: 'a'});
+const filePath = process.env.APP_ENV == 'dev' ? path.join(process.cwd(), process.env.LOG_PATH, logName) : path.join(process.env.LOG_PATH, logName);
+const accessLogStream = fs.createWriteStream(filePath, { flags: 'a'});
 
 const emailRouter = require('../email/email-router');
 const recaptchaRouter = require('../recaptcha/recaptcha-router');

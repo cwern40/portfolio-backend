@@ -4,6 +4,7 @@ const AWS = require("aws-sdk");
 const log = require('loglevel');
 const s3 = new AWS.S3();
 const logName = process.env.APP_ENV == 'dev' ? 'error_log_dev' : 'error_log';
+const filePath = process.env.APP_ENV == 'dev' ? path.join(process.cwd(), process.env.LOG_PATH, logName) : path.join(process.env.LOG_PATH, logName);
 
 module.exports = {
     logToFile,
@@ -19,7 +20,7 @@ function logToFile(filename, data, title='') {
         }
     }
     
-    let log = fs.createWriteStream(path.join(process.cwd(), process.env.LOG_PATH, filename), { flags: 'a' });
+    let log = fs.createWriteStream(filePath, { flags: 'a' });
 
     log.on('open', function () {
         log.write(`${title}: ${data}`);
@@ -42,7 +43,7 @@ async function writeFileToAWS(body='', fileName, append=false) {
         
     }
     if (fileName.includes('_log')) {
-        let fileStream = fs.createReadStream(path.join(process.cwd(), process.env.LOG_PATH, fileName))
+        let fileStream = fs.createReadStream(filePath)
         fileStream.on('error', function(err) {
             log.error('writeFileToAWS filestream error');
             logToFile(logName, err, 'writeFileToAWS filestream error');
@@ -50,7 +51,7 @@ async function writeFileToAWS(body='', fileName, append=false) {
 
         body += fileStream;
 
-        fs.truncate(path.join(process.cwd(), process.env.LOG_PATH, fileName), 0, function (err, bytes) {
+        fs.truncate(filePath, 0, function (err, bytes) {
             if (err) {
                 log.error('error removing log data', err);
                 logToFile(logName, err, 'error removing log data');

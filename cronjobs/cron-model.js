@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const AWS = require("aws-sdk");
 const logName = process.env.APP_ENV == 'dev' ? 'error_log_dev' : 'error_log';
+const filePath = process.env.APP_ENV == 'dev' ? path.join(process.cwd(), process.env.LOG_PATH, logName) : path.join(process.env.LOG_PATH, logName);
 const s3 = new AWS.S3();
 
 module.exports = {
@@ -49,7 +50,7 @@ async function emailLog (data) {
 
     let email = await transporter.sendMail(emailContents);
 
-    fs.truncate(path.join(process.cwd(), process.env.LOG_PATH, logName), 0, function (err, bytes) {
+    fs.truncate(filePath, 0, function (err, bytes) {
         log.error('error removing log data', err);
         custLog(logName, err, 'error removing log data');
     })
