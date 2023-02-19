@@ -12,7 +12,6 @@ const accessLogStream = fs.createWriteStream(path.join(process.cwd(), process.en
 
 const emailRouter = require('../email/email-router');
 const recaptchaRouter = require('../recaptcha/recaptcha-router');
-const cronRouter = require('../cronjobs/cron-router');
 
 const server = express();
 
@@ -33,18 +32,11 @@ const logFormat = ':remote-addr - :remote-user [:date[America/Denver]] ":method 
 // logs errors to the console
 server.use(morgan(logFormat, {
     skip: function (req, res) { return res.statusCode < 400 }
-}));
-
-// logs errors to a log file
-server.use(morgan(logFormat, {
-    skip: function (req, res) { return res.statusCode < 400 },
-    stream: accessLogStream
-}));
+}))
 server.use(express.json());
 
 server.use('/api/email', emailRouter);
 server.use('/api/recaptcha', recaptchaRouter);
-server.use('/api/cron', cronRouter);
 
 server.get('/', (req, res) => {
     res.send("Success")
