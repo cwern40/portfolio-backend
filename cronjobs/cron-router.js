@@ -23,7 +23,7 @@ router.get('/emaillog', cronValidation, (req, res) => {
 })
 
 router.get('/uploadlog', cronValidation, (req, res) => {
-    helperService.writeFileToAWS('', logName, true).then(data => {
+    helperService.writeFileToAWS('', logName, true).then((data) => {
         if (data.success) {
             res.status(200).json({
                 success: true

@@ -58,25 +58,21 @@ async function writeFileToAWS(body='', fileName, append=false) {
             }
         })
     }
-
-    return s3.upload({
-        Bucket: process.env.CYCLIC_BUCKET_NAME,
-        Key: fileName,
-        Body: body,
-    }, function (err, data) {
-        if (err) {
-            log.error(`s3 error uploading file - ${err}`);
-            logToFile(logName, err, 's3 error uploading file');
-            return {
-                success: false,
-                error: err
-            }
+    try {
+        await s3.upload({
+            Bucket: process.env.CYCLIC_BUCKET_NAME,
+            Key: fileName,
+            Body: body,
+        }).promise();
+        return {
+            success: true
         }
-        if (data) {
-            log.info(`s3 upload file success - ${data}`);
-            return {
-                success: true
-            }
+    } catch (err) {
+        console.log(`s3 error uploading file - ${err}`);
+        logToFile(logName, err, 's3 error uploading file');
+        return {
+            success: false,
+            error: err
         }
-    })
+    }
 }
