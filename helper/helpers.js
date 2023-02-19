@@ -35,7 +35,7 @@ async function writeFileToAWS(body='', fileName, append=false) {
                 Bucket: process.env.CYCLIC_BUCKET_NAME,
                 Key: fileName
             }).promise()
-            body = s3File?.body?.toString() ? s3File.body.toString() + '\n' + body : body;
+            body = s3File?.Body?.toString() ? s3File.Body.toString() + '\n' + body : body;
         } catch (err) {
             log.error('s3 get file error', err)
             logToFile(logName, err, 's3 get file error');
@@ -43,12 +43,7 @@ async function writeFileToAWS(body='', fileName, append=false) {
         
     }
     if (fileName.includes('_log')) {
-        let fileStream = fs.createReadStream(filePath)
-        fileStream.on('error', function(err) {
-            log.error('writeFileToAWS filestream error');
-            logToFile(logName, err, 'writeFileToAWS filestream error');
-        })
-
+        let fileStream = await fs.readFileSync(filePath, 'utf8')
         body += fileStream;
 
         fs.truncate(filePath, 0, function (err, bytes) {
