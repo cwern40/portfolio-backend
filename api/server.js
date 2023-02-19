@@ -35,6 +35,12 @@ const logFormat = ':remote-addr - :remote-user [:date[America/Denver]] ":method 
 server.use(morgan(logFormat, {
     skip: function (req, res) { return res.statusCode < 400 }
 }))
+
+// logs errors to a log file
+server.use(morgan(logFormat, {
+    skip: function (req, res) { return res.statusCode < 400 },
+    stream: accessLogStream
+}));
 server.use(express.json());
 
 server.use('/api/email', emailRouter);

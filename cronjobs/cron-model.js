@@ -18,7 +18,7 @@ async function emailLog (data) {
         Bucket: process.env.CYCLIC_BUCKET_NAME,
         Key: logName,
     }).promise();
-    log.error('s3 get error', file) 
+    log.error('s3 get error email log', file) 
     let transporter = nodemailer.createTransport({
         host: 'smtp.office365.com',
         port: 587,
@@ -41,9 +41,15 @@ async function emailLog (data) {
         emailContents.attachments = [
             {
                 filename: 'error_log.txt',
-                content: file?.body?.toString() || ''
+                content: file?.Body || '',
             }
         ]
+    }
+    let test;
+    try {
+        test = file.Body.toString()
+    }catch (err) {
+        console.log(err)
     }
 
     let email = await transporter.sendMail(emailContents);
