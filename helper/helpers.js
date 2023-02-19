@@ -32,7 +32,7 @@ async function writeFileToAWS(body='', fileName, append=false) {
     if (append) {
         try {
             await s3.getObject({
-                Bucket: process.env.S3_BUCKET,
+                Bucket: process.env.CYCLIC_BUCKET_NAME,
                 Key: fileName
             }).promise()
             body = data.body.toString() + '\n' + body;
@@ -60,7 +60,7 @@ async function writeFileToAWS(body='', fileName, append=false) {
     }
 
     return s3.upload({
-        Bucket: process.env.S3_BUCKET,
+        Bucket: process.env.CYCLIC_BUCKET_NAME,
         Key: fileName,
         Body: body,
     }, function (err, data) {
