@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
+const moment = require('moment-timezone');
 require('dotenv').config();
 const logName = process.env.APP_ENV == 'dev' ? 'error_log_dev' : 'error_log';
 const accessLogStream = fs.createWriteStream(path.join(process.cwd(), process.env.LOG_PATH, logName), { flags: 'a'});
@@ -25,8 +26,9 @@ const corsOptions = {
 server.use(cors(corsOptions));
 
 // logger settings
-morgan.token('body', function (req, res) { return JSON.stringify(req.body)})
-const logFormat = ':remote-addr - :remote-user [:date[web]] ":method :url HTTP/:http-version" :status :body :res[content-length] ":referrer" ":user-agent"'
+morgan.token('body', function (req, res) { return JSON.stringify(req.body)});
+morgan.token('date', function (req, res, tz) { return moment.tz(tz).format('ddd, MMM Do YYYY, h:mm:ss a zz'); });
+const logFormat = ':remote-addr - :remote-user [:date[America/Denver]] ":method :url HTTP/:http-version" :status :body :res[content-length] ":referrer" ":user-agent"';
 
 // logs errors to the console
 server.use(morgan(logFormat, {
