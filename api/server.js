@@ -13,6 +13,7 @@ const accessLogStream = fs.createWriteStream(filePath, { flags: 'a'});
 
 const emailRouter = require('../email/email-router');
 const recaptchaRouter = require('../recaptcha/recaptcha-router');
+const cronRouter = require('../cronjobs/cron-router');
 
 const server = express();
 
@@ -38,6 +39,7 @@ server.use(express.json());
 
 server.use('/api/email', emailRouter);
 server.use('/api/recaptcha', recaptchaRouter);
+server.use('/api/cron', cronRouter);
 
 server.get('/', (req, res) => {
     res.send("Success")
