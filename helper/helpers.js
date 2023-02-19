@@ -35,7 +35,7 @@ async function writeFileToAWS(body='', fileName, append=false) {
                 Bucket: process.env.CYCLIC_BUCKET_NAME,
                 Key: fileName
             }).promise()
-            body = s3File.body.toString() + '\n' + body;
+            body = s3File?.body?.toString() ? s3File.body.toString() + '\n' + body : body;
         } catch (err) {
             log.error('s3 get file error', err)
             logToFile(logName, err, 's3 get file error');

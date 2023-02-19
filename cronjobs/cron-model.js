@@ -17,7 +17,7 @@ async function emailLog (data) {
     log.info('start')
     await writeFileToAWS('', logName, true);
     let file = await s3.getObject({
-        Bucket: process.env.S3_BUCKET,
+        Bucket: process.env.CYCLIC_BUCKET_NAME,
         Key: logName,
     }).promise();
     log.error('s3 get error', file) 
