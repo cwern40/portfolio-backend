@@ -13,8 +13,9 @@ async function sendEmail (data) {
         port: 587,
         secure: false,
         auth: {
-            user: process.env.MAIL_USER,
-            pass: process.env.MAIL_PASS
+            type: "OAuth2",
+            Username: process.env.MAIL_USER,
+            Password: process.env.MAIL_PASS
         }
     })
 
