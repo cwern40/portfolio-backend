@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
-// const morgan = require('morgan');
+const morgan = require('morgan');
 // const fs = require('fs');
 // const path = require('path');
 const moment = require('moment-timezone');
@@ -27,14 +27,14 @@ const corsOptions = {
 server.use(cors(corsOptions));
 
 // logger settings
-// morgan.token('body', function (req, res) { return JSON.stringify(req.body)});
-// morgan.token('date', function (req, res, tz) { return moment.tz(tz).format('ddd, MMM Do YYYY, h:mm:ss a zz'); });
-// const logFormat = ':remote-addr - :remote-user [:date[America/Denver]] ":method :url HTTP/:http-version" :status :body :res[content-length] ":referrer" ":user-agent"';
+morgan.token('body', function (req, res) { return JSON.stringify(req.body)});
+morgan.token('date', function (req, res, tz) { return moment.tz(tz).format('ddd, MMM Do YYYY, h:mm:ss a zz'); });
+const logFormat = ':remote-addr - :remote-user [:date[America/Denver]] ":method :url HTTP/:http-version" :status :body :res[content-length] ":referrer" ":user-agent"';
 
 // logs errors to the console
-// server.use(morgan(logFormat, {
-//     skip: function (req, res) { return res.statusCode < 400 }
-// }))
+server.use(morgan(logFormat, {
+    skip: function (req, res) { return res.statusCode < 400 }
+}))
 server.use(express.json());
 
 server.use('/api/email', emailRouter);

@@ -9,18 +9,17 @@ module.exports = {
 
 async function sendEmail (data) {
     let transporter = nodemailer.createTransport({
-        host: 'smtp-mail.outlook.com',
-        port: 587,
+        host: 'mxslurp.click',
+        port: 2525,
         secure: false,
         auth: {
-            type: "OAuth2",
             user: process.env.MAIL_USER,
-            accessToken: process.env.MAIL_PASS
+            pass: process.env.MAIL_PASS
         }
     })
 
     let email = await transporter.sendMail({
-        from: '"Portfolio Site" <chris.wernli@hotmail.com>',
+        from: '"Portfolio Site" <chris.wernli@mailslurp.biz>',
         to: 'chris.wernli40@gmail.com',
         subject: 'PORTFOLIO SITE MESSAGE',
         html: `<p><strong>NAME:</strong> ${data.name}</p>
