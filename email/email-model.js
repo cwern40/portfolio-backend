@@ -9,8 +9,8 @@ module.exports = {
 
 async function sendEmail (data) {
     let transporter = nodemailer.createTransport({
-        host: 'mxslurp.click',
-        port: 2525,
+        host: 'smtp.sendgrid.net',
+        port: 587,
         secure: false,
         auth: {
             user: process.env.MAIL_USER,
@@ -19,7 +19,7 @@ async function sendEmail (data) {
     })
 
     let email = await transporter.sendMail({
-        from: '"Portfolio Site" <ce3f30bb-ee26-4fc4-92d8-1d303ce847f0@mailslurp.biz>',
+        from: '"Portfolio Site" <contact@chriswernli.com>',
         to: 'chris.wernli40@gmail.com',
         subject: 'PORTFOLIO SITE MESSAGE',
         html: `<p><strong>NAME:</strong> ${data.name}</p>
