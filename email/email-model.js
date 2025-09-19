@@ -9,7 +9,7 @@ module.exports = {
 
 async function sendEmail (data) {
     let transporter = nodemailer.createTransport({
-        host: 'smtp.sendgrid.net',
+        host: 'smtp.mailersend.net',
         port: 587,
         secure: false,
         auth: {
@@ -19,7 +19,7 @@ async function sendEmail (data) {
     })
 
     let email = await transporter.sendMail({
-        from: '"Portfolio Site" <contact@chriswernli.com>',
+        from: '"Portfolio Site" <contact@test-r83ql3pke0vgzw1j.mlsender.net>',
         to: 'chris.wernli40@gmail.com',
         subject: 'PORTFOLIO SITE MESSAGE',
         html: `<p><strong>NAME:</strong> ${data.name}</p>
