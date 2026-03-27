@@ -19,7 +19,7 @@ async function sendEmail (data) {
     })
 
     let email = await transporter.sendMail({
-        from: '"Portfolio Site" <contact@test-r83ql3pke0vgzw1j.mlsender.net>',
+        from: '"Portfolio Site" <contact@alexwernlimemorial.com>',
         to: 'chris.wernli40@gmail.com',
         subject: 'PORTFOLIO SITE MESSAGE',
         html: `<p><strong>NAME:</strong> ${data.name}</p>
